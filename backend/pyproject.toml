@@ -1,0 +1,23 @@
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+ignore = [
+    "B008",  # FastAPI Depends() in endpoint signatures
+    "B904",  # Exception chaining in HTTPException
+    "E501",  # Line length handled by formatter
+]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+follow_imports = "silent"
+disable_error_code = ["arg-type", "assignment", "call-arg", "union-attr", "override"]
+

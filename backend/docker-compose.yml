@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: oil_twin_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=development
+      - DATA_MODE=simulated
+      - SEED=42
+      - WELLS=10
+      - SIM_SPEED=1.0
+      - DATABASE_URL=sqlite+aiosqlite:///oil_twin.db
+    volumes:
+      - ./oil_twin.db:/app/oil_twin.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
